@@ -7,6 +7,7 @@ Created on Jun 1, 2015
 import geocoder
 
 def geocodeList(addressExcelList):
+    # -*- coding: cp949 -*-
     
     #geolocator = Nominatim()
     searchingAddress = ''
@@ -14,16 +15,17 @@ def geocodeList(addressExcelList):
     count = 0
     for rows in addressExcelList:
         searchingAddress=''
-        searchingAddress+=str(rows[3].value)
+        searchingAddress+=str(rows[0].value)
         searchingAddress+=' '
-        searchingAddress+=str(rows[4].value)
-        searchingAddress+=' '
-        searchingAddress+=str(rows[6].value)
-        searchingAddress+=' '
-        searchingAddress+=str(rows[7].value)    
+        searchingAddress+=str(rows[1].value)
+        searchingAddress+='-'
+        searchingAddress+=str(rows[2].value)
+        #searchingAddress+=' '
+        #searchingAddress+=str(rows[7].value)    
         
-        print(searchingAddress)
+        #print(searchingAddress)
         location = geocoder.google(searchingAddress)
+        print(searchingAddress)
         print(location.latlng)
         if location.latlng == [] :
             resultList.append(['',''])
