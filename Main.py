@@ -25,9 +25,6 @@ def findUniqueAddr(existFilepath, existSheetname, newFilepath, newSheetname):
         addr2 = str(int(row[2].value))
         addr3 = str(row[3].value)
         
-        #print(type(addr0))
-        #print(addr1)
-        
         if (addr0+addr1+addr2+addr3) != (temp_addr0+temp_addr1+temp_addr2+temp_addr3) :
             
             insertListTemp.append(addr0)
@@ -47,11 +44,13 @@ def findUniqueAddr(existFilepath, existSheetname, newFilepath, newSheetname):
     excel.excelWriteNewFile(newFilepath, newSheetname, insertList)
     
 if __name__ == '__main__':
-        
+    
     filename = '200601SaleApartment.xls'
     sheetname = 'Seoul'
     newfile = 'apartment_test.xlsx'
     newsheet = 'Sheet1'
+    
+    #excel.xlsToXlsx(filename, sheetname)
     
     #findUniqueAddr(filename, sheetname, newfile, newsheet)
     
@@ -60,5 +59,6 @@ if __name__ == '__main__':
     geocodingResult = geocoding.geocodeList(excelResult2)
     
     excel.excelWriteOnExistingFile(newfile, newsheet, 'E', geocodingResult)
+    
     
     

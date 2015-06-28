@@ -8,7 +8,7 @@ Created on Jun 1, 2015
 import xlrd
 import openpyxl
 import xlwt
-
+from openpyxl import Workbook
 
 
 def excelRead(filepath, sheetname):
@@ -29,6 +29,7 @@ def excelRead(filepath, sheetname):
 def excelWriteOnExistingFile(filepath, sheetname, columnNum, insert): 
     wb = xlrd.open_workbook(filepath)
     ws = wb.sheet_by_name(sheetname)
+    
     workbook = openpyxl.load_workbook(filepath)
     worksheet = workbook.active
     
@@ -46,7 +47,8 @@ def excelWriteOnExistingFile(filepath, sheetname, columnNum, insert):
     workbook.save(filepath)
     print('saved successfully!')
     
-def excelWriteNewFile(filepath, sheetname, insert):
+def excelWriteNewFile(filepath, sheetname, insertList):
+    '''
     wb = xlwt.Workbook()
     ws = wb.add_sheet(sheetname)
     
@@ -61,5 +63,32 @@ def excelWriteNewFile(filepath, sheetname, insert):
         i+=1
         
     wb.save(filepath)
+    '''
+    wb = Workbook()
+    ws = wb.active
+    ws.title = sheetname
+    
+    i1 = 0
+    i2 = ord('A')
+    while i1<len(insertList[0]):
+        j=0
+        k=j+1
+        while j<len(insertList):
+            print(type(insertList[j][i1]))
+            if str(type(insertList[j][i1])) == "<class 'xlrd.sheet.Cell'>":
+                ws[chr(i2)+str(k)] = insertList[j][i1].value
+            else:
+                ws[chr(i2)+str(k)] = insertList[j][i1]
+            j+=1
+            k+=1
+        i1+=1
+        i2+=1
+        
+    wb.save(filepath)
+    
+    
+def xlsToXlsx(filepath, sheetname):
+    xlsList = excelRead(filepath, sheetname)
+    excelWriteNewFile(filepath+'x', sheetname, xlsList)
     
     
