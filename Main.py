@@ -3,16 +3,13 @@ Created on Jun 22, 2015
 
 @author: Bumsub
 '''
-#-*- coding: utf-8 -*-
+
 import FileIO.Excel as excel
 import Web.APIs.Geocoding as geocoding
 import geocoder
-    
-if __name__ == '__main__':
-        
-    filename = '200601SaleApartment.xls'
-    sheetname = 'Seoul'
-    excelResult = excel.excelRead(filename.encode('utf-8'), sheetname.encode('utf-8'))
+
+def findUniqueAddr(existFilepath, existSheetname, newFilepath, newSheetname):
+    excelResult = excel.excelRead(existFilepath, existSheetname)
     
     temp_addr0 = ''
     temp_addr1 = '' 
@@ -21,12 +18,12 @@ if __name__ == '__main__':
     
     insertList = []
     
-    for apartment in excelResult[1:]:
+    for row in excelResult[1:]:
         insertListTemp = []
-        addr0 = str(apartment[0].value)
-        addr1 = str(int(apartment[1].value))
-        addr2 = str(int(apartment[2].value))
-        addr3 = str(apartment[3].value)
+        addr0 = str(row[0].value)
+        addr1 = str(int(row[1].value))
+        addr2 = str(int(row[2].value))
+        addr3 = str(row[3].value)
         
         #print(type(addr0))
         #print(addr1)
@@ -46,22 +43,22 @@ if __name__ == '__main__':
             temp_addr1 = addr1
             temp_addr2 = addr2
             temp_addr3 = addr3
-            
-            
-            #print(addr0+" "+addr1+" "+addr2+" "+addr3)
               
-    #print(len(insertList[0]))
-    #print(len(insertList))
-    #print(insertList[1][3])
+    excel.excelWriteNewFile(newFilepath, newSheetname, insertList)
     
-    excel.excelWriteNewFile('apartment.xlsx', 'Sheet1', insertList)
+if __name__ == '__main__':
+        
+    filename = '200601SaleApartment.xls'
+    sheetname = 'Seoul'
+    newfile = 'apartment_test.xlsx'
+    newsheet = 'Sheet1'
     
-    excelResult2 = excel.excelRead('apartment.xlsx', 'Sheet1')
+    #findUniqueAddr(filename, sheetname, newfile, newsheet)
+    
+    excelResult2 = excel.excelRead(newfile, newsheet)
     
     geocodingResult = geocoding.geocodeList(excelResult2)
     
-    #print(geocodingResult)
-    
-    #excel.excelWriteOnExistingFile('200601SaleApartment.xls', 'Seoul', 10, geocodingResult)
+    excel.excelWriteOnExistingFile(newfile, newsheet, 'E', geocodingResult)
     
     
