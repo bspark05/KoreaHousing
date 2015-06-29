@@ -1,8 +1,4 @@
-'''
-Created on Jun 22, 2015
-
-@author: Bumsub
-'''
+#-*- coding: utf-8 -*-
 
 import FileIO.Excel as excel
 import Web.APIs.Geocoding as geocoding
@@ -45,20 +41,20 @@ def findUniqueAddr(existFilepath, existSheetname, newFilepath, newSheetname):
     
 if __name__ == '__main__':
     
-    filename = '200601SaleApartment.xls'
-    sheetname = 'Seoul'
-    newfile = 'apartment_test.xlsx'
+    filename = '200601매매아파트.xls'
+    sheetname = '서울'
+    newfile = 'apartment_test_Seoul.xlsx'
     newsheet = 'Sheet1'
     
-    #excel.xlsToXlsx(filename, sheetname)
+    excel.xlsToXlsx(filename.decode('utf-8'), sheetname.decode('utf-8'))
     
     #findUniqueAddr(filename, sheetname, newfile, newsheet)
     
-    excelResult2 = excel.excelRead(newfile, newsheet)
+    #excelResult2 = excel.excelRead(newfile, newsheet)
     
-    geocodingResult = geocoding.geocodeList(excelResult2)
+    #geocodingResult = geocoding.geocodeList(excelResult2)
     
-    excel.excelWriteOnExistingFile(newfile, newsheet, 'E', geocodingResult)
+    #excel.excelWriteOnExistingFile(newfile, newsheet, 'E', geocodingResult)
     
     
     
