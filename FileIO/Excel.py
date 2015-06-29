@@ -80,7 +80,7 @@ def excelWriteNewFile(filepath, sheetname, insertList):
         i2+=1
         
     wb.save(filepath)
-    
+    print('saved successfully!')
     
 def xlsToXlsx(filepath, sheetname):
     xlsList = excelRead(filepath, sheetname)

@@ -30,8 +30,6 @@ def findUniqueAddr(existFilepath, existSheetname, newFilepath, newSheetname):
             
             insertList.append(insertListTemp)
             
-            print(addr3)
-            
             temp_addr0 = addr0
             temp_addr1 = addr1
             temp_addr2 = addr2
@@ -39,24 +37,25 @@ def findUniqueAddr(existFilepath, existSheetname, newFilepath, newSheetname):
               
     excel.excelWriteNewFile(newFilepath, newSheetname, insertList)
     
+    print('(find unique address) saved successfully!')
+    
 if __name__ == '__main__':
     
     filename = '200601매매아파트.xls'
     sheetname = '서울'
-    newfile = 'apartment_test_Seoul.xlsx'
-    newsheet = 'Sheet1'
     
-    #fileInfoList = excel.xlsToXlsx(filename.decode('utf-8'), sheetname.decode('utf-8'))
+    fileInfoList = excel.xlsToXlsx(filename.decode('utf-8'), sheetname.decode('utf-8'))
 
-    #findUniqueAddr(fileInfoList[0], fileInfoList[1], newfile, newsheet)
+    newfile = fileInfoList[0][:-5]+'_unique.xlsx'
+    newsheet = fileInfoList[1]
+    
+    findUniqueAddr(fileInfoList[0], fileInfoList[1], newfile, newsheet)
     
     excelResult2 = excel.excelRead(newfile, newsheet)
     
-    #print(excelResult2[0][0].value)
+    #geocodingResult = geocoding.geocodeList(excelResult2)
     
-    geocodingResult = geocoding.geocodeList(excelResult2)
-    
-    excel.excelWriteOnExistingFile(newfile, newsheet, 'E', geocodingResult)
+    #excel.excelWriteOnExistingFile(newfile, newsheet, 'E', geocodingResult)
     
     
     
