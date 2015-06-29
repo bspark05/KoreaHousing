@@ -73,7 +73,7 @@ def excelWriteNewFile(filepath, sheetname, insertList):
             if str(type(insertList[j][i1])) == "<class 'xlrd.sheet.Cell'>":
                 ws[chr(i2)+str(k)] = insertList[j][i1].value
             else:
-                ws[chr(i2)+str(k)] = insertList[j][i1]
+                ws[chr(i2)+str(k)] = insertList[j][i1].encode('utf-8')
             j+=1
             k+=1
         i1+=1
@@ -90,6 +90,9 @@ def xlsToXlsx(filepath, sheetname):
     engSheetname = resultList[1]
     
     excelWriteNewFile(engFilepath, engSheetname, xlsList)
+    
+    fileInfoList = [str(engFilepath), engSheetname]
+    return fileInfoList 
     
 def engToKor(filepath, sheetname):
     sale = '매매'
@@ -131,13 +134,7 @@ def engToKor(filepath, sheetname):
         resultSheetname = 'Seoul'
         
     return [resultFilename, resultSheetname] 
-    
-    
-    
-    
-        
-    
-    #return engResultList
+
     
     
     

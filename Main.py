@@ -46,15 +46,17 @@ if __name__ == '__main__':
     newfile = 'apartment_test_Seoul.xlsx'
     newsheet = 'Sheet1'
     
-    excel.xlsToXlsx(filename.decode('utf-8'), sheetname.decode('utf-8'))
+    #fileInfoList = excel.xlsToXlsx(filename.decode('utf-8'), sheetname.decode('utf-8'))
+
+    #findUniqueAddr(fileInfoList[0], fileInfoList[1], newfile, newsheet)
     
-    #findUniqueAddr(filename, sheetname, newfile, newsheet)
+    excelResult2 = excel.excelRead(newfile, newsheet)
     
-    #excelResult2 = excel.excelRead(newfile, newsheet)
+    #print(excelResult2[0][0].value)
     
-    #geocodingResult = geocoding.geocodeList(excelResult2)
+    geocodingResult = geocoding.geocodeList(excelResult2)
     
-    #excel.excelWriteOnExistingFile(newfile, newsheet, 'E', geocodingResult)
+    excel.excelWriteOnExistingFile(newfile, newsheet, 'E', geocodingResult)
     
     
     

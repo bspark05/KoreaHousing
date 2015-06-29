@@ -1,8 +1,5 @@
-'''
-Created on Jun 1, 2015
+#-*- coding: utf-8 -*-
 
-@author: Bumsub
-'''
 #from geopy.geocoders import Nominatim
 import geocoder
 
@@ -15,7 +12,8 @@ def geocodeList(addressExcelList):
     count = 0
     for rows in addressExcelList:
         searchingAddress=''
-        searchingAddress+=str(rows[0].value)
+        
+        searchingAddress+=rows[0].value
         searchingAddress+=' '
         searchingAddress+=str(rows[1].value)
         searchingAddress+='-'
