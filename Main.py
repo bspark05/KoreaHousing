@@ -41,7 +41,7 @@ def findUniqueAddr(existFilepath, existSheetname, newFilepath, newSheetname):
     
 if __name__ == '__main__':
     
-    filename = '200601매매아파트.xls'
+    filename = '201501전월세아파트.xls'
     sheetname = '서울'
     
     fileInfoList = excel.xlsToXlsx(filename.decode('utf-8'), sheetname.decode('utf-8'))

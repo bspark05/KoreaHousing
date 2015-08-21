@@ -130,9 +130,12 @@ def engToKor(filepath, sheetname):
     resultFilename = firstPart+secondPart+thirdPart
     
     seoul = '서울'
+    busan = '부산'
     if sheetname == seoul.decode('utf-8'):
         resultSheetname = 'Seoul'
-        
+    elif sheetname == busan.decode('utf-8'):
+        resultSheetname = 'Busan'
+            
     return [resultFilename, resultSheetname] 
 
     
