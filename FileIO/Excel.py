@@ -40,6 +40,40 @@ def excelWriteOnExistingFile(filepath, sheetname, columnNum, insert):
         worksheet[columnNumPlus+str(curr_row+1)] = insert[curr_row][1]
         
     workbook.save(filepath)
+    print('saved successfully in existing file!')
+    
+    
+    # .xlsx file available
+def excelWriteOnExistingFile2(filepath, sheetname, insert):
+    wb = xlrd.open_workbook(filepath)
+    ws = wb.sheet_by_name(sheetname)
+    
+    workbook = openpyxl.load_workbook(filepath)
+    worksheet = workbook.active
+    
+    i1 = 0 
+    i2 = ord('A') 
+    num_rows = ws.nrows
+    
+    print len(insert[0])
+    print len(insert)
+    
+    
+    while i1<len(insert[0]):
+        j=0
+        k=j+1
+        while j<len(insert): #2666
+            #print(type(insertList[j][i1]))
+            if str(type(insert[j][i1])) == "<class 'xlrd.sheet.Cell'>":
+                worksheet[chr(i2)+str(k+num_rows)] = insert[j][i1].value
+            else:
+                worksheet[chr(i2)+str(k+num_rows)] = insert[j][i1].encode('utf-8')
+            j+=1
+            k+=1
+        i1+=1
+        i2+=1
+        
+    workbook.save(filepath)
     print('saved successfully!')
     
 def excelWriteNewFile(filepath, sheetname, insertList):

@@ -4,7 +4,7 @@ import FileIO.Excel as excel
 import Web.APIs.Geocoding as geocoding
 import geocoder
 
-def findUniqueAddr(existFilepath, existSheetname, newFilepath, newSheetname):
+def findUniqueAddr(existFilepath, existSheetname):
     excelResult = excel.excelRead(existFilepath, existSheetname)
     
     temp_addr0 = ''
@@ -35,26 +35,85 @@ def findUniqueAddr(existFilepath, existSheetname, newFilepath, newSheetname):
             temp_addr2 = addr2
             temp_addr3 = addr3
               
-    excel.excelWriteNewFile(newFilepath, newSheetname, insertList)
-    
-    print('(find unique address) saved successfully!')
+    return insertList
+
+def findUniqueAddr2(existFilepath, existSheetname, inputList):
+    excelResult = excel.excelRead(existFilepath, existSheetname)
+     
+    temp_addr0 = ''
+    temp_addr1 = '' 
+    temp_addr2 = ''
+    temp_addr3 = ''
+     
+    insertList = []
+     
+    for inputRow in inputList:
+        temp_addr0 = inputRow[0]
+        temp_addr1 = str(inputRow[1])
+        temp_addr2 = str(inputRow[2])
+        temp_addr3 = inputRow[3]
+        
+        insertListTemp = []
+        
+        index = 0
+        for existingRow in excelResult:
+            index+=1
+            
+            addr0 = str(existingRow[0].value)
+            addr1 = str(int(existingRow[1].value))
+            addr2 = str(int(existingRow[2].value))
+            addr3 = str(existingRow[3].value)
+            
+            if (addr0+addr1+addr2+addr3) == (temp_addr0+temp_addr1+temp_addr2+temp_addr3) :
+                break
+            
+            if index == len(excelResult):
+                insertListTemp.append(temp_addr0)
+                insertListTemp.append(temp_addr1)
+                insertListTemp.append(temp_addr2)
+                insertListTemp.append(temp_addr3)    
+         
+                insertList.append(insertListTemp)
+        
+    return insertList
     
 if __name__ == '__main__':
-    
+    #step 1 - finding unique address        
+           
     filename = '201501전월세아파트.xls'
     sheetname = '서울'
-    
+           
     fileInfoList = excel.xlsToXlsx(filename.decode('utf-8'), sheetname.decode('utf-8'))
-
+    
     newfile = fileInfoList[0][:-5]+'_unique.xlsx'
     newsheet = fileInfoList[1]
     
-    findUniqueAddr(fileInfoList[0], fileInfoList[1], newfile, newsheet)
+    uniqueAddr = findUniqueAddr(fileInfoList[0], fileInfoList[1])
     
-    excelResult2 = excel.excelRead(newfile, newsheet)
+    excel.excelWriteNewFile(newfile, newsheet, uniqueAddr)
     
+    print('saved successfully (step1)')
+    
+    #step 2 - update dictionary
+     
+    filenameDic = 'Dictionary.xlsx'
+    sheetnameDic = 'Sheet1'
+    
+    uniqueAddr2 = findUniqueAddr2(filenameDic, sheetnameDic, uniqueAddr)
+    
+    print len(uniqueAddr2)
+     
+    excel.excelWriteOnExistingFile2(filenameDic, sheetnameDic, uniqueAddr2)
+     
+    print('saved successfully in Dictionary')
+    
+    
+        
+    #step 3 - geocoding
+    
+        
     #geocodingResult = geocoding.geocodeList(excelResult2)
-    
+
     #excel.excelWriteOnExistingFile(newfile, newsheet, 'E', geocodingResult)
     
     
