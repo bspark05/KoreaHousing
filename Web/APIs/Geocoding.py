@@ -33,3 +33,4 @@ def geocodeList(addressExcelList):
         print(count)
         count+=1
     return resultList
+

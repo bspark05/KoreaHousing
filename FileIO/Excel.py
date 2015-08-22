@@ -55,9 +55,6 @@ def excelWriteOnExistingFile2(filepath, sheetname, insert):
     i2 = ord('A') 
     num_rows = ws.nrows
     
-    print len(insert[0])
-    print len(insert)
-    
     
     while i1<len(insert[0]):
         j=0
@@ -114,7 +111,7 @@ def excelWriteNewFile(filepath, sheetname, insertList):
         i2+=1
         
     wb.save(filepath)
-    print('saved successfully!')
+    print('saved successfully in a new file!')
     
 def xlsToXlsx(filepath, sheetname):
     xlsList = excelRead(filepath, sheetname)
