@@ -126,37 +126,72 @@ if __name__ == '__main__':
 #         print('saved successfully in Dictionary')
      
             
-    #3 - Geocoding - AddressMatching project
+#     #3 - Geocoding - AddressMatching project
 
     
     #4 - Matching excel file and BD_MGT_SN in Dictionary
-    
+     
     filenameMat = '201501SaleApartment.xlsx'
     sheetnameMat = 'Seoul'
-      
+       
     matResult = excel.excelRead(filenameMat, sheetnameMat)
-      
-        #4-1 - EMD code matching
-    filenameEMD = 'Seoul_EMD_code.xlsx'
-    sheetnameEMD = 'Seoul_EMD_code'
-      
-    resultEMD = excel.excelRead(filenameEMD, sheetnameEMD)
-    
-    emdMatList = []  
-    for addrMat in matResult[1:]:
-        tempEMD = '-1'
-        addrStrip = str(addrMat[0].value).strip()
-            
-        for rowEMD in resultEMD:
-            rowEMDStr = str(rowEMD[1].value)
-              
-            if addrStrip == rowEMDStr:
-                tempEMD = str(int(rowEMD[0].value))
-                break
-        emdMatList.append(tempEMD)
-      
-    excel.excelWriteOnExistingFile3(filenameMat, sheetnameMat, 'k', emdMatList)
-    print('saved successfully in '+ filenameMat)    
+#       
+#         #4-1 - EMD code matching
+#     filenameEMD = 'Seoul_EMD_code.xlsx'
+#     sheetnameEMD = 'Seoul_EMD_code'
+#       
+#     resultEMD = excel.excelRead(filenameEMD, sheetnameEMD)
+#     
+#     emdMatList = []  
+#     for addrMat in matResult[1:]:
+#         tempEMD = '-1'
+#         addrStrip = str(addrMat[0].value).strip()
+#             
+#         for rowEMD in resultEMD:
+#             rowEMDStr = str(rowEMD[1].value)
+#               
+#             if addrStrip == rowEMDStr:
+#                 tempEMD = str(int(rowEMD[0].value))
+#                 break
+#         emdMatList.append(tempEMD)
+#       
+#     excel.excelWriteOnExistingFile3(filenameMat, sheetnameMat, 'k', emdMatList)
+#     print('saved successfully in '+ filenameMat)    
     
         #4-2 - Matching excel file and dictionary
     
+    filenameDicRe = 'Dictionary_result.xlsx'
+    sheetnameDicRe = 'Sheet2'
+    
+    resultDicRe = excel.excelRead(filenameDicRe, sheetnameDicRe)
+    
+    snList = []
+    for addrMat1 in matResult[1:]:
+        tempBd_SN = '-1'
+        tempeqb_SN = '-1'
+        tempSnList = []
+        
+        addr1 = str(addrMat1[10].value)[:5]
+        addr2 = str(addrMat1[10].value)[5:8]
+        addr3 = str(int(addrMat1[1].value))
+        addr4 = str(int(addrMat1[2].value))
+        
+        #print(addr1+' '+addr2+' '+addr3+' '+addr4)
+        
+        for addrDicRe in resultDicRe:
+            addrD1 = str(addrDicRe[4].value)[:5]
+            addrD2 = str(addrDicRe[4].value)[5:8]
+            addrD3 = str(int(addrDicRe[1].value))
+            addrD4 = str(int(addrDicRe[2].value))
+            
+            if addr1 == addrD1 and addr2 == addrD2 and addr3 == addrD3 and addr4 == addrD4 :
+                tempBd_SN = str(addrDicRe[5].value)
+                tempeqb_SN = str(int(addrDicRe[6].value))
+                break
+        tempSnList = [tempBd_SN, tempeqb_SN]
+        snList.append(tempSnList)
+    
+    excel.excelWriteOnExistingFile4(filenameMat, sheetnameMat, 'l', snList)
+    print('saved successfully in '+ filenameMat)
+                
+                
