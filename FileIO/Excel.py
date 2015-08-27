@@ -21,6 +21,8 @@ def excelRead(filepath, sheetname):
     
     return result
 
+
+# first row - data
 def excelWriteOnExistingFile(filepath, sheetname, columnNum, insert): 
     wb = xlrd.open_workbook(filepath)
     ws = wb.sheet_by_name(sheetname)
@@ -72,6 +74,25 @@ def excelWriteOnExistingFile2(filepath, sheetname, insert):
         
     workbook.save(filepath)
     print('saved successfully!')
+
+#first row - field name    
+def excelWriteOnExistingFile3(filepath, sheetname, columnNum, insert): 
+    wb = xlrd.open_workbook(filepath)
+    ws = wb.sheet_by_name(sheetname)
+    
+    workbook = openpyxl.load_workbook(filepath)
+    worksheet = workbook.active
+    
+    num_rows = ws.nrows -1
+    curr_row = -1
+    
+    while curr_row < num_rows -1:
+        curr_row += 1
+        
+        worksheet[columnNum+str(curr_row+2)] = insert[curr_row]
+                
+    workbook.save(filepath)
+    print('saved successfully in existing file!')
     
 def excelWriteNewFile(filepath, sheetname, insertList):
     '''

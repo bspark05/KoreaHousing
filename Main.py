@@ -76,21 +76,21 @@ def findUniqueAddr2(existFilepath, existSheetname, inputList):
     return insertList
     
 if __name__ == '__main__':
-    #step 1 - finding unique address        
-           
-    filename = '201501매매아파트.xls'
-    sheetname = '서울'
-             
-    fileInfoList = excel.xlsToXlsx(filename.decode('utf-8'), sheetname.decode('utf-8'))
-      
-    newfile = fileInfoList[0][:-5]+'_unique.xlsx'
-    newsheet = fileInfoList[1]
-      
-    uniqueAddr = findUniqueAddr(fileInfoList[0], fileInfoList[1])
-      
-    excel.excelWriteNewFile(newfile, newsheet, uniqueAddr)
-      
-    print('saved successfully (step1)')
+#     #step 1 - finding unique address        
+#            
+#     filename = '201501매매아파트.xls'
+#     sheetname = '서울'
+#              
+#     fileInfoList = excel.xlsToXlsx(filename.decode('utf-8'), sheetname.decode('utf-8'))
+#       
+#     newfile = fileInfoList[0][:-5]+'_unique.xlsx'
+#     newsheet = fileInfoList[1]
+#       
+#     uniqueAddr = findUniqueAddr(fileInfoList[0], fileInfoList[1])
+#       
+#     excel.excelWriteNewFile(newfile, newsheet, uniqueAddr)
+#       
+#     print('saved successfully (step1)')
     
      
 #     #step 2 - update dictionary
@@ -127,7 +127,36 @@ if __name__ == '__main__':
      
             
     #3 - Geocoding - AddressMatching project
+
     
     #4 - Matching excel file and BD_MGT_SN in Dictionary
     
+    filenameMat = '201501SaleApartment.xlsx'
+    sheetnameMat = 'Seoul'
+      
+    matResult = excel.excelRead(filenameMat, sheetnameMat)
+      
+        #4-1 - EMD code matching
+    filenameEMD = 'Seoul_EMD_code.xlsx'
+    sheetnameEMD = 'Seoul_EMD_code'
+      
+    resultEMD = excel.excelRead(filenameEMD, sheetnameEMD)
+    
+    emdMatList = []  
+    for addrMat in matResult[1:]:
+        tempEMD = '-1'
+        addrStrip = str(addrMat[0].value).strip()
+            
+        for rowEMD in resultEMD:
+            rowEMDStr = str(rowEMD[1].value)
+              
+            if addrStrip == rowEMDStr:
+                tempEMD = str(int(rowEMD[0].value))
+                break
+        emdMatList.append(tempEMD)
+      
+    excel.excelWriteOnExistingFile3(filenameMat, sheetnameMat, 'k', emdMatList)
+    print('saved successfully in '+ filenameMat)    
+    
+        #4-2 - Matching excel file and dictionary
     
